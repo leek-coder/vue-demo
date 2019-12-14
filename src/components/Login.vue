@@ -6,6 +6,7 @@
                 <img src="../assets/bg.jpeg"/>
             </div>
             <el-form ref="myForm" class="login_form" :model="loginForm" :rules="rules">
+                <!--添加prop是为了触发resetFields方法-->
                 <el-form-item prop="userName">
                     <el-input placeholder="请输入用户名" prefix-icon="el-icon-user-solid"
                               v-model="loginForm.userName"></el-input>
@@ -64,7 +65,7 @@
                             data: this.loginForm
                         }).then(res => {
                             console.log(res)
-                            if (res.code != 0) {
+                            if (res.code != 200) {
                                 this.$message.error(res.message)
                                 return;
                             }
@@ -80,7 +81,6 @@
                             //跳转
                             this.$router.push("/home")
                         }).catch(err => {
-                            console.log(err)
                             this.$message.error("网络异常")
                         })
                     }
