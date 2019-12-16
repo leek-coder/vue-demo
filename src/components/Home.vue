@@ -8,7 +8,16 @@
                 <img src="../assets/bg.jpeg"/>
                 <span>微客店后台管理系统</span>
             </div>
-            <el-button @click="logout">退出</el-button>
+            <el-dropdown :hide-on-click="true" @command="handleCommand">
+  <span class="el-dropdown-link">
+    操作<i class="el-icon-arrow-down el-icon--right"></i>
+  </span>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item disabled class="login-user">leek</el-dropdown-item>
+                    <el-dropdown-item command="changePwd">修改密码</el-dropdown-item>
+                    <el-dropdown-item command="logout">退出</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
         </el-header>
         <!--        页面主题区域-->
         <el-container>
@@ -17,9 +26,9 @@
                 <!--                :width="isCollapse ? '64px':'200px'"-->
                 <!--                <div class="trigger_btn" @click="trigger">|||</div>-->
                 <el-menu :unique-opened="isOpened" router
-                         background-color="#545c64" :default-active="this.$route.path"
+                         background-color="#3a3f4c" :default-active="this.$route.path"
                          text-color="#fff"
-                         active-text-color="#42b883"  :collapse-transition="false">
+                         active-text-color="#42b883" :collapse-transition="false">
                     <el-submenu :index="item.nodeId" v-for="item in menusList" :key="item.nodeId">
                         <template slot="title">
                             <i :class="item.icon"></i>
@@ -79,6 +88,13 @@
                     this.$message.error("网络异常");
                 })
 
+            },
+            handleCommand(command) {
+                if (command === 'logout') {
+                    this.logout();
+                } else {
+                    console.log("修改密码")
+                }
             }
             // trigger(){
             //     this.isCollapse = !this.isCollapse
@@ -101,12 +117,12 @@
 
 <style scoped>
     .el-header {
-        background-color: #47b784;
+        background-color: #3a3f4c;
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding-left: 5px;
-        color: white;
+        color: #47b784;
         font-size: 15px;
     }
 
@@ -127,7 +143,7 @@
     }
 
     .el-aside {
-        background-color: #545c64;
+        background-color: #3a3f4c;
     }
 
     .el-menu {
@@ -150,5 +166,18 @@
         cursor: pointer;
         letter-spacing: 0.2em;
         text-align: center;
+    }
+
+    .el-dropdown-link {
+        cursor: pointer;
+        color: white;
+    }
+    .el-dropdown-link:hover {
+        cursor: pointer;
+        color: #47b784;
+    }
+
+    .el-icon-arrow-down {
+        font-size: 12px;
     }
 </style>

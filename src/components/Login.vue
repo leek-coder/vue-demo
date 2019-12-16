@@ -64,10 +64,8 @@
                             method: "post",
                             data: this.loginForm
                         }).then(res => {
-                            console.log(res)
                             if (res.code != 200) {
-                                this.$message.error(res.message)
-                                return;
+                               return  this.$message.error(res.message);
                             }
                             this.$message.success("登陆成功")
                             //将token保存到本地

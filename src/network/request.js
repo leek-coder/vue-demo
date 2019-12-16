@@ -5,7 +5,7 @@ export function request(config) {
     return new Promise((resolve, reject) => {
         const instance = axios.create({
             baseURL: 'http://localhost:8500/user-service',
-            timeout: 5000,
+            timeout: 8000,
             headers:{
                 "Authorization":token
             }
