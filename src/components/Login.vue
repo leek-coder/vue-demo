@@ -3,7 +3,7 @@
         <div class="login_box">
             <!--头像-->
             <div class="avatar_box">
-                <img src="../assets/bg.jpeg"/>
+                <img src="../assets/profile.jpeg"/>
             </div>
             <el-form ref="myForm" class="login_form" :model="loginForm" :rules="rules">
                 <!--添加prop是为了触发resetFields方法-->
@@ -91,15 +91,15 @@
 <!--scoped表示，样式只在当前组件中生效，如果去掉，就会全局生效-->
 <style scoped>
     .login_container {
-        background-color: cadetblue;
+        background-image: url("../assets/bg.jpg");
         height: 100%;
     }
 
     .login_box {
         width: 450px;
         height: 300px;
-        background-color: papayawhip;
-        border-radius: 3px;
+        background-color: whitesmoke;
+        border-radius: 5px;
         position: absolute;
         left: 50%;
         top: 50%;

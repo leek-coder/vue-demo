@@ -14,8 +14,12 @@ html,body,#app {
 .el-table{
     margin-top: 15px;
     font-size: 13px;
+    text-align: center;
 
 }
 .el-pagination{
     margin-top: 15px;
+}
+.el-table td,.el-table th{
+    text-align:  center !important;
 }

@@ -5,7 +5,7 @@
         <!--        头部区域-->
         <el-header>
             <div>
-                <img src="../assets/bg.jpeg"/>
+                <img src="../assets/profile.jpeg"/>
                 <span>微客店后台管理系统</span>
             </div>
             <el-dropdown :hide-on-click="true" @command="handleCommand">
