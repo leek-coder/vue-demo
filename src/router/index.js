@@ -5,7 +5,9 @@ import Home from "../components/Home";
 import Welcome from "../components/Welcome";
 import User from "../components/user/User";
 import Auth from "../components/resource/Resource";
-
+import Log from "../components/log/Log";
+import Product from "../components/product/Product";
+import Role from "../components/role/Role";
 Vue.use(VueRouter)
 
 const routes = [
@@ -15,7 +17,10 @@ const routes = [
     },
     {
         path: "/login",
-        component: Login
+        component: Login,
+        meta:{
+            title:'微课后台管理系统',
+        }
     },
     {
         path: "/home",
@@ -24,8 +29,12 @@ const routes = [
         children: [
             {path: "/welcome", component: Welcome},
             {path: "/user", component: User},
-            {path:"/resource",component:Auth}
+            {path:"/resource",component:Auth},
+            {path:"/product",component:Product},
+            {path:"/log",component:Log},
+            {path:"/role",component:Role}
         ]
+
     }
 ]
 
@@ -41,7 +50,7 @@ router.beforeEach((to, from, next) => {
     const token = localStorage.getItem("token");
     if (!token) return next('/login')
     next();
-    // document.title = to.matched[0].meta.title;
+    document.title = '微课后台管理系统'
 })
 
 export default router

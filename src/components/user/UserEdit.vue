@@ -50,7 +50,7 @@
     import validUser from "../../js/ValidateUser";
 
     export default {
-        name: "UserAdd",
+        name: "UserEdit",
         props: {
             editDialogVisible: {
                 type: Boolean
@@ -60,13 +60,13 @@
             }
         },
         methods: {
-            //提交用户添加
+            //提交用户更新
             submitUser() {
                 this.$refs.editUser.validate(valid => {
                     if (valid) {
                         request({
                             method: 'post',
-                            url: 'web/user/save',
+                            url: 'web/user/update',
                             data: this.userInfo
                         }).then(res => {
                             //成功

@@ -16,7 +16,7 @@
                     </el-input>
                 </el-col>
                 <el-col :span="4">
-                    <el-button type="primary" size="small" @click="dialogVisible=true">添加用户</el-button>
+                    <el-button type="primary"  @click="dialogVisible=true">添加用户</el-button>
                 </el-col>
             </el-row>
 
@@ -31,7 +31,7 @@
                         <el-tag type="danger" v-else>女</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="手机号" prop="telephone" width="100px"></el-table-column>
+                <el-table-column label="手机号" prop="telephone" width="110px"></el-table-column>
                 <el-table-column label="状态">
                     <template slot-scope="userList">
                         <el-tag type="success" v-if="userList.row.status===0">未删除</el-tag>
@@ -41,15 +41,18 @@
                 </el-table-column>
                 <el-table-column label="邮箱" prop="email" width="170px"></el-table-column>
                 <el-table-column label="创建时间" prop="createTime" width="100px"></el-table-column>
-                <el-table-column label="操作" width="150px">
+                <el-table-column label="操作" width="180px">
                     <!--使用作用域插槽来实现-->
                     <template slot-scope="userList">
-                        <el-button size="mini" type="primary" icon="el-icon-edit" circle
+                        <el-button :disabled="userList.row.status===1" size="mini" type="primary" icon="el-icon-edit" circle
                                    @click="editUser(userList.row.id)"></el-button>
                         <el-tooltip effect="dark" content="分配角色" placement="top">
-                            <el-button size="mini" type="warning" icon="el-icon-star-off" circle></el-button>
+                            <el-button :disabled="userList.row.status===1" size="mini" type="warning" icon="el-icon-star-off" circle></el-button>
                         </el-tooltip>
-                        <el-button size="mini" type="danger" icon="el-icon-delete" circle @click="deleteUser(userList.row)"></el-button>
+                        <el-button  :disabled="userList.row.status===1" size="mini" type="danger" icon="el-icon-delete" circle @click="deleteUser(userList.row)"></el-button>
+                        <el-tooltip effect="dark" content="恢复用户" placement="top">
+                        <el-button  :disabled="userList.row.status===0" size="mini" type="success" icon="el-icon-success" circle @click="recoveryUser(userList.row)"></el-button>
+                        </el-tooltip>
                     </template>
                 </el-table-column>
 
@@ -172,6 +175,28 @@
                        }else{
                            this.$message.error(res.message);
                        }
+                    })
+                })
+            },
+            //恢复用户状态
+            recoveryUser(user){
+                this.$confirm('该操作将恢复['+user.userName+']用户', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    center: true
+                }).then(() => {
+                    request({
+                        method:'get',
+                        url:'web/user/recovery/' + user.id
+                    }).then(res=>{
+                        if(res.code==200){
+
+                            this.$message.success(res.message);
+                            this.getUserList();
+                        }else{
+                            this.$message.error(res.message);
+                        }
                     })
                 })
             }

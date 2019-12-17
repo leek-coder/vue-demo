@@ -57,7 +57,7 @@
                          request({
                              method:'post',
                              url:'web/user/save',
-                             data:this.userInfo
+                             data:this.addUser
                          }).then(res=>{
                              //成功
                             if(res.code==200){
