@@ -1,6 +1,4 @@
 <template>
-
-
     <el-container class="home-container">
         <!--        头部区域-->
         <el-header>
@@ -28,7 +26,7 @@
                 <el-menu :unique-opened="isOpened" router
                          background-color="#3a3f4c" :default-active="this.$route.path"
                          text-color="#fff"
-                         active-text-color="#42b883" :collapse-transition="false">
+                         active-text-color="#42b883" :collapse="isCollapse" :collapse-transition="false">
                     <el-submenu :index="item.nodeId" v-for="item in menusList" :key="item.nodeId">
                         <template slot="title">
                             <i :class="item.icon"></i>
@@ -42,8 +40,6 @@
                             </template>
                         </el-menu-item>
                     </el-submenu>
-
-
                 </el-menu>
 
             </el-aside>
@@ -53,6 +49,7 @@
                 <router-view></router-view>
             </el-main>
         </el-container>
+
     </el-container>
 </template>
 
@@ -65,8 +62,8 @@
             return {
                 //左侧菜单数据
                 menusList: [],
-                isOpened: true
-                // isCollapse:false
+                isOpened: true,
+                isCollapse: false
             }
         },
         methods: {
@@ -95,22 +92,25 @@
                 } else {
                     console.log("修改密码")
                 }
+            },
+            getMenus() {
+                request({
+                    url: "user/menus",
+                    method: "get",
+                }).then(res => {
+                    if (res.code == 200) {
+                        this.menusList = res.data;
+                        console.log(this.menusList)
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
             }
             // trigger(){
             //     this.isCollapse = !this.isCollapse
             // }
         }, created() {
-            request({
-                url: "user/menus",
-                method: "get",
-            }).then(res => {
-                if (res.code == 200) {
-                    this.menusList = res.data;
-                    console.log(this.menusList)
-                }
-            }).catch(err => {
-                console.log(err)
-            })
+            this.getMenus();
         }
     }
 </script>
@@ -172,6 +172,7 @@
         cursor: pointer;
         color: white;
     }
+
     .el-dropdown-link:hover {
         cursor: pointer;
         color: #47b784;

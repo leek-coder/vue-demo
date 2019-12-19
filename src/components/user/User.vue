@@ -47,7 +47,7 @@
                         <el-button :disabled="userList.row.status===1" size="mini" type="primary" icon="el-icon-edit" circle
                                    @click="editUser(userList.row.id)"></el-button>
                         <el-tooltip effect="dark" content="分配角色" placement="top">
-                            <el-button :disabled="userList.row.status===1" size="mini" type="warning" icon="el-icon-star-off" circle></el-button>
+                            <el-button @click="grantRole(userList.row.id)"  :disabled="userList.row.status===1" size="mini" type="warning" icon="el-icon-star-off" circle></el-button>
                         </el-tooltip>
                         <el-button  :disabled="userList.row.status===1" size="mini" type="danger" icon="el-icon-delete" circle @click="deleteUser(userList.row)"></el-button>
                         <el-tooltip effect="dark" content="恢复用户" placement="top">
@@ -74,6 +74,8 @@
         <UserAdd :dialogVisible="dialogVisible" @hideDialog="hideDialog"></UserAdd>
         <!-- 编辑用户的对话框-->
         <user-edit :editDialogVisible="editDialogVisible" :userInfo="userInfo" @editDialogVisible="hideEditDialogVisible"></user-edit>
+        <!-- 分配角色的对话框-->
+        <grant-role :grantRoleDialogVisible="grantRoleDialogVisible" :userInfo="userInfo" @grantRoleDialogVisible="resetGrantHideDialog"></grant-role>
     </div>
 </template>
 
@@ -81,6 +83,7 @@
     import {request} from "../../network/request";
     import UserAdd from "./UserAdd";
     import UserEdit from "./UserEdit";
+    import GrantRole from "./GrantRole";
 
     export default {
         name: "User",
@@ -96,6 +99,7 @@
                 total: 0,
                 dialogVisible: false,
                 editDialogVisible:false,
+                grantRoleDialogVisible:false,
                 userInfo: {}
             }
         }, created() {
@@ -105,6 +109,7 @@
         components: {
             UserAdd,
             UserEdit,
+            GrantRole
         },
         methods: {
             handleSizeChange(size) {
@@ -119,6 +124,9 @@
             hideDialog() {
                 this.dialogVisible = !this.dialogVisible;
                 this.getUserList();
+            },
+            resetGrantHideDialog(){
+              this.grantRoleDialogVisible = !this.grantRoleDialogVisible;
             },
             hideEditDialogVisible() {
                 this.editDialogVisible = !this.editDialogVisible;
@@ -155,6 +163,11 @@
                 }).catch(err => {
                     this.$message.error("查询用户信息异常")
                 })
+            },
+            //用户分配角色
+            grantRole(id){
+                console.log(id)
+                this.grantRoleDialogVisible = !this.grantRoleDialogVisible;
             },
             //用户删除
             deleteUser(user){
@@ -205,5 +218,4 @@
 </script>
 
 <style scoped>
-
 </style>

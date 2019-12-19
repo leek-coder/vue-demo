@@ -17,8 +17,34 @@
             <!--用户列表展示-->
             <el-table :data="rolesList" border stripe>
                 <!-- 展开列 -->
+                <el-table-column type="expand">
+                    <template slot-scope="rolesList">
+                        <el-row v-for="(item,key) in rolesList.row.children" :key="item.id"
+                                :class="['tbBottom',key===0?'tbTop':'','vn']">
+                            <el-col :span="5">
+                                <el-tag>{{item.authName}}</el-tag>
+                                <i class="el-icon-caret-right"></i>
+                            </el-col>
+                            <el-col :span="19">
+                                <!--渲染二级和三级权限-->
+                                <el-row :class="[key2===0?'':'tbTop','vn']" v-for="(item1,key2) in item.children"
+                                        :key="item1.id">
+                                    <el-col :span="6">
+                                        <el-tag type="success">{{item1.authName}}</el-tag>
+                                        <i class="el-icon-caret-right"></i>
+                                    </el-col>
+                                    <el-col :span="13">
+                                        <el-tag type="warning" v-for="item2 in item1.children" closable
+                                                @close="removeChildren(item2.authName)">
+                                            {{item2.authName}}
+                                        </el-tag>
+                                    </el-col>
+                                </el-row>
+                            </el-col>
 
-                <el-table-column type="expand"></el-table-column>
+                        </el-row>
+                    </template>
+                </el-table-column>
                 <el-table-column type="index"></el-table-column>
                 <el-table-column label="角色名称" prop="name"></el-table-column>
                 <el-table-column label="角色描述" prop="description"></el-table-column>
@@ -45,6 +71,9 @@
         <!--编辑角色-->
         <role-edit :editDialogVisible="editDialogVisible" :roleInfo="roleInfo"
                    @editDialogVisible="hideEditDialogVisible"></role-edit>
+        <!--角色授权-->
+        <grant-resource :grantDialogVisible="grantDialogVisible" :roleInfo="roleInfo"
+                        @grantDialogVisible="hideGrantDialogVisible"></grant-resource>
     </div>
 </template>
 
@@ -52,6 +81,7 @@
     import {request} from "../../network/request";
     import RoleAdd from "./RoleAdd";
     import RoleEdit from "./RoleEdit";
+    import GrantResource from "./GrantResource";
 
     export default {
         name: "Role",
@@ -63,15 +93,26 @@
                 },
                 dialogVisible: false,
                 editDialogVisible: false,
+                grantDialogVisible:false,
                 roleInfo: {}
             }
         },
         components: {
             RoleAdd,
-            RoleEdit
+            RoleEdit,
+            GrantResource
         },
         methods: {
-            grant() {
+            grant(id) {
+                this.grantDialogVisible = !this.grantDialogVisible;
+            },
+            removeChildren(name) {
+                this.$confirm('该操作将删除[' + name + ']权限,本操作只做演示,操作记录不落库', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    center: true
+                })
             },
             //编辑角色信息
             editRole(id) {
@@ -81,7 +122,6 @@
                     url: 'web/role/info/' + id
                 }).then(res => {
                     if (res.code == 200) {
-                        console.log("success")
                         this.roleInfo = res.data;
                         this.editDialogVisible = !this.editDialogVisible;
                     }
@@ -120,6 +160,9 @@
                 this.editDialogVisible = !this.editDialogVisible;
                 this.getRoleList();
             },
+            hideGrantDialogVisible(){
+                this.grantDialogVisible = !this.grantDialogVisible;
+            },
             getRoleList() {
                 request({
                     url: "web/role/query",
@@ -143,5 +186,20 @@
 </script>
 
 <style scoped>
+    .el-tag {
+        margin: 7px;
+    }
 
+    .tbTop {
+        border-top: 1px solid ghostwhite;
+    }
+
+    .tbBottom {
+        border-bottom: 1px solid ghostwhite;
+    }
+
+    .vn {
+        display: flex;
+        align-items: center;
+    }
 </style>
