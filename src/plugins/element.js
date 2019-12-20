@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import
-{Form,FormItem,Button,Input,Container,
+{Form,FormItem,Button,Input,Container,Tree,
     Breadcrumb,Header,Aside,Card,Main,BreadcrumbItem,
     Menu,MenuItem,Submenu,Row,Col,Table,Dialog,Select,Option,
     TableColumn,Tag,Tooltip,Pagination,Dropdown,DropdownMenu,DropdownItem} from "element-ui";
@@ -37,3 +37,4 @@ Vue.use(Dropdown)
 Vue.use(Dialog)
 Vue.use(Select)
 Vue.use(Option)
+Vue.use(Tree)

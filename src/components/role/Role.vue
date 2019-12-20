@@ -72,8 +72,8 @@
         <role-edit :editDialogVisible="editDialogVisible" :roleInfo="roleInfo"
                    @editDialogVisible="hideEditDialogVisible"></role-edit>
         <!--角色授权-->
-        <grant-resource :grantDialogVisible="grantDialogVisible" :roleInfo="roleInfo"
-                        @grantDialogVisible="hideGrantDialogVisible"></grant-resource>
+        <grant-resource :grantDialogVisible="grantDialogVisible" :defKeys="defKeys" :roleId="roleId"
+                        @grantDialogVisible="hideGrantDialogVisible" :grantList="grantList"></grant-resource>
     </div>
 </template>
 
@@ -93,8 +93,11 @@
                 },
                 dialogVisible: false,
                 editDialogVisible: false,
-                grantDialogVisible:false,
-                roleInfo: {}
+                grantDialogVisible: false,
+                roleInfo: {},
+                grantList: [],
+                defKeys:[],
+                roleId:0
             }
         },
         components: {
@@ -103,8 +106,32 @@
             GrantResource
         },
         methods: {
-            grant(id) {
-                this.grantDialogVisible = !this.grantDialogVisible;
+            grant(role) {
+                request({
+                    url: 'web/resource/tree',
+                    method: 'get'
+                }).then(res => {
+                    if (res.code = 200) {
+                        this.grantList = res.data;
+                        this.roleId = role.id;
+                        this.getTreesNode(role,this.defKeys);
+                        this.grantDialogVisible = !this.grantDialogVisible;
+
+                    }
+                }).catch(err => {
+                    this.$message.error("获取权限树失败")
+                })
+
+
+            },
+            //通过递归的方式，获取角色所有的三级节点，并保存id到defKeys中
+            getTreesNode(node, arr) {
+               node.children.forEach(node1=>{
+                   arr.push(node1.id);
+                   node1.children.forEach(node2=>{
+                       arr.push(node2.id);
+                   })
+               })
             },
             removeChildren(name) {
                 this.$confirm('该操作将删除[' + name + ']权限,本操作只做演示,操作记录不落库', '提示', {
@@ -160,8 +187,10 @@
                 this.editDialogVisible = !this.editDialogVisible;
                 this.getRoleList();
             },
-            hideGrantDialogVisible(){
+            hideGrantDialogVisible() {
                 this.grantDialogVisible = !this.grantDialogVisible;
+                this.defKeys = [];
+                this.getRoleList();
             },
             getRoleList() {
                 request({

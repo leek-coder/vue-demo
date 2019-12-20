@@ -50,7 +50,7 @@
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page="query.page"
-                    :page-sizes="[1,2, 5,15,20]"
+                    :page-sizes="[5,10,15,20]"
                     :page-size="query.size"
                     layout="total, sizes, prev, pager, next, jumper"
                     :total="total">
@@ -71,7 +71,7 @@
             return {
                 query: {
                     page: 1,
-                    size: 1
+                    size: 5
                 },
                 resourcesList: [],
                 total: 0

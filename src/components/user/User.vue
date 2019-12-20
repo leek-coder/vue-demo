@@ -16,7 +16,7 @@
                     </el-input>
                 </el-col>
                 <el-col :span="4">
-                    <el-button type="primary"  @click="dialogVisible=true">添加用户</el-button>
+                    <el-button type="primary" @click="dialogVisible=true">添加用户</el-button>
                 </el-col>
             </el-row>
 
@@ -25,6 +25,7 @@
                 <el-table-column type="index"></el-table-column>
                 <el-table-column label="账号" prop="userName"></el-table-column>
                 <el-table-column label="姓名" prop="nickName"></el-table-column>
+                <el-table-column label="所属角色" prop="roleName"></el-table-column>
                 <el-table-column label="性别">
                     <template slot-scope="userList">
                         <el-tag v-if="userList.row.sex===1">男</el-tag>
@@ -44,14 +45,18 @@
                 <el-table-column label="操作" width="180px">
                     <!--使用作用域插槽来实现-->
                     <template slot-scope="userList">
-                        <el-button :disabled="userList.row.status===1" size="mini" type="primary" icon="el-icon-edit" circle
+                        <el-button :disabled="userList.row.status===1" size="mini" type="primary" icon="el-icon-edit"
+                                   circle
                                    @click="editUser(userList.row.id)"></el-button>
                         <el-tooltip effect="dark" content="分配角色" placement="top">
-                            <el-button @click="grantRole(userList.row.id)"  :disabled="userList.row.status===1" size="mini" type="warning" icon="el-icon-star-off" circle></el-button>
+                            <el-button @click="grantRole(userList.row)" :disabled="userList.row.status===1" size="mini"
+                                       type="warning" icon="el-icon-star-off" circle></el-button>
                         </el-tooltip>
-                        <el-button  :disabled="userList.row.status===1" size="mini" type="danger" icon="el-icon-delete" circle @click="deleteUser(userList.row)"></el-button>
+                        <el-button :disabled="userList.row.status===1" size="mini" type="danger" icon="el-icon-delete"
+                                   circle @click="deleteUser(userList.row)"></el-button>
                         <el-tooltip effect="dark" content="恢复用户" placement="top">
-                        <el-button  :disabled="userList.row.status===0" size="mini" type="success" icon="el-icon-success" circle @click="recoveryUser(userList.row)"></el-button>
+                            <el-button :disabled="userList.row.status===0" size="mini" type="success"
+                                       icon="el-icon-success" circle @click="recoveryUser(userList.row)"></el-button>
                         </el-tooltip>
                     </template>
                 </el-table-column>
@@ -73,9 +78,11 @@
         <!-- 添加用户的对话框-->
         <UserAdd :dialogVisible="dialogVisible" @hideDialog="hideDialog"></UserAdd>
         <!-- 编辑用户的对话框-->
-        <user-edit :editDialogVisible="editDialogVisible" :userInfo="userInfo" @editDialogVisible="hideEditDialogVisible"></user-edit>
+        <user-edit :editDialogVisible="editDialogVisible" :userInfo="userInfo"
+                   @editDialogVisible="hideEditDialogVisible"></user-edit>
         <!-- 分配角色的对话框-->
-        <grant-role :grantRoleDialogVisible="grantRoleDialogVisible" :userInfo="userInfo" @grantRoleDialogVisible="resetGrantHideDialog"></grant-role>
+        <grant-role :grantRoleDialogVisible="grantRoleDialogVisible" :roleInfo="roleInfo" :roleList="roleList"
+                    @grantRoleDialogVisible="resetGrantHideDialog"></grant-role>
     </div>
 </template>
 
@@ -98,9 +105,11 @@
                 userList: [],
                 total: 0,
                 dialogVisible: false,
-                editDialogVisible:false,
-                grantRoleDialogVisible:false,
-                userInfo: {}
+                editDialogVisible: false,
+                grantRoleDialogVisible: false,
+                userInfo: {},
+                roleInfo: {},
+                roleList: []
             }
         }, created() {
             this.getUserList();
@@ -125,8 +134,9 @@
                 this.dialogVisible = !this.dialogVisible;
                 this.getUserList();
             },
-            resetGrantHideDialog(){
-              this.grantRoleDialogVisible = !this.grantRoleDialogVisible;
+            resetGrantHideDialog() {
+                this.grantRoleDialogVisible = !this.grantRoleDialogVisible;
+                this.getUserList();
             },
             hideEditDialogVisible() {
                 this.editDialogVisible = !this.editDialogVisible;
@@ -165,49 +175,63 @@
                 })
             },
             //用户分配角色
-            grantRole(id){
-                console.log(id)
-                this.grantRoleDialogVisible = !this.grantRoleDialogVisible;
+            grantRole(user) {
+                request({
+                    url: 'web/role/list',
+                    method: 'get'
+                }).then(res => {
+                    if (res.code == 200) {
+                        this.roleList = res.data;
+                        this.roleInfo = user;
+                        this.grantRoleDialogVisible = !this.grantRoleDialogVisible;
+                    } else {
+                        this.$message.error(res.message);
+                    }
+
+                }).catch(err => {
+                    this.$message.error("网络异常")
+                })
+
             },
             //用户删除
-            deleteUser(user){
-                this.$confirm('该操作将永久删除['+user.userName+']用户', '提示', {
+            deleteUser(user) {
+                this.$confirm('该操作将永久删除[' + user.userName + ']用户', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning',
                     center: true
                 }).then(() => {
                     request({
-                        method:'get',
-                        url:'web/user/delete/' + user.id
-                    }).then(res=>{
-                       if(res.code==200){
+                        method: 'get',
+                        url: 'web/user/delete/' + user.id
+                    }).then(res => {
+                        if (res.code == 200) {
 
-                           this.$message.success(res.message);
-                           this.getUserList();
-                       }else{
-                           this.$message.error(res.message);
-                       }
+                            this.$message.success(res.message);
+                            this.getUserList();
+                        } else {
+                            this.$message.error(res.message);
+                        }
                     })
                 })
             },
             //恢复用户状态
-            recoveryUser(user){
-                this.$confirm('该操作将恢复['+user.userName+']用户', '提示', {
+            recoveryUser(user) {
+                this.$confirm('该操作将恢复[' + user.userName + ']用户', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning',
                     center: true
                 }).then(() => {
                     request({
-                        method:'get',
-                        url:'web/user/recovery/' + user.id
-                    }).then(res=>{
-                        if(res.code==200){
+                        method: 'get',
+                        url: 'web/user/recovery/' + user.id
+                    }).then(res => {
+                        if (res.code == 200) {
 
                             this.$message.success(res.message);
                             this.getUserList();
-                        }else{
+                        } else {
                             this.$message.error(res.message);
                         }
                     })
