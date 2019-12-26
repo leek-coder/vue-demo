@@ -58,7 +58,7 @@
                     if(valid){
                         request({
                             method:'post',
-                            url:'web/role/update',
+                            url:'user-service/web/role/update',
                             data:this.roleInfo
                         }).then(res=>{
                             //成功

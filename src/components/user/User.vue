@@ -146,7 +146,7 @@
             getUserList() {
                 request({
                     method: "get",
-                    url: "web/user/query",
+                    url: "user-service/web/user/query",
                     params: this.query
                 }).then(res => {
                     if (res.code != 200) {
@@ -164,7 +164,7 @@
                 //请求用户信息
                 request({
                     method: 'get',
-                    url: 'web/user/info/' + id
+                    url: 'user-service/web/user/info/' + id
                 }).then(res => {
                     if (res.code == 200) {
                         this.userInfo = res.data;
@@ -177,7 +177,7 @@
             //用户分配角色
             grantRole(user) {
                 request({
-                    url: 'web/role/list',
+                    url: 'user-service/web/role/list',
                     method: 'get'
                 }).then(res => {
                     if (res.code == 200) {
@@ -203,7 +203,7 @@
                 }).then(() => {
                     request({
                         method: 'get',
-                        url: 'web/user/delete/' + user.id
+                        url: 'user-service/web/user/delete/' + user.id
                     }).then(res => {
                         if (res.code == 200) {
 
@@ -225,7 +225,7 @@
                 }).then(() => {
                     request({
                         method: 'get',
-                        url: 'web/user/recovery/' + user.id
+                        url: 'user-service/web/user/recovery/' + user.id
                     }).then(res => {
                         if (res.code == 200) {
 

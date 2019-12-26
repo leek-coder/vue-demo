@@ -96,7 +96,7 @@
             getResourcesList() {
                 request({
                     method: 'get',
-                    url: 'web/resource/query',
+                    url: 'user-service/web/resource/query',
                     params: this.query
                 }).then(res => {
                     if (res.code == 200) {

@@ -60,7 +60,7 @@
                     resIds: nodes
                 }
                 request({
-                    url: 'web/role/grant',
+                    url: 'user-service/web/role/grant',
                     data: params,
                     method: 'post'
                 }).then(res => {

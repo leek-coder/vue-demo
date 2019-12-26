@@ -8,6 +8,7 @@ import Auth from "../components/resource/Resource";
 import Log from "../components/log/Log";
 import Product from "../components/product/Product";
 import Role from "../components/role/Role";
+import Category from "../components/category/Category";
 Vue.use(VueRouter)
 
 const routes = [
@@ -19,7 +20,7 @@ const routes = [
         path: "/login",
         component: Login,
         meta:{
-            title:'微课后台管理系统',
+            title:'后台管理系统',
         }
     },
     {
@@ -31,6 +32,7 @@ const routes = [
             {path: "/user", component: User},
             {path:"/resource",component:Auth},
             {path:"/product",component:Product},
+            {path:"/category",component:Category},
             {path:"/log",component:Log},
             {path:"/role",component:Role}
         ]
@@ -50,7 +52,7 @@ router.beforeEach((to, from, next) => {
     const token = localStorage.getItem("token");
     if (!token) return next('/login')
     next();
-    document.title = '微课后台管理系统'
+    document.title = '后台管理系统'
 })
 
 export default router

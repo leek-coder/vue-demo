@@ -140,7 +140,7 @@
             getLogList() {
                 request({
                     method: "get",
-                    url: "web/log/query",
+                    url: "user-service/web/log/query",
                     params: this.query
                 }).then(res => {
                     if (res.code != 200) {
@@ -158,7 +158,7 @@
                 //请求用户信息
                 request({
                     method: 'get',
-                    url: 'web/log/info/' + id
+                    url: 'user-service/web/log/info/' + id
                 }).then(res => {
                     if (res.code == 200) {
                         this.logInfo = res.data;

@@ -49,7 +49,7 @@
                     if(valid){
                         request({
                             method:'post',
-                            url:'web/role/save',
+                            url:'user-service/web/role/save',
                             data:this.addRole
                         }).then(res=>{
                             //成功

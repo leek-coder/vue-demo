@@ -108,7 +108,7 @@
         methods: {
             grant(role) {
                 request({
-                    url: 'web/resource/tree',
+                    url: 'user-service/web/resource/tree',
                     method: 'get'
                 }).then(res => {
                     if (res.code = 200) {
@@ -146,7 +146,7 @@
                 //请求用户信息
                 request({
                     method: 'get',
-                    url: 'web/role/info/' + id
+                    url: 'user-service/web/role/info/' + id
                 }).then(res => {
                     if (res.code == 200) {
                         this.roleInfo = res.data;
@@ -166,7 +166,7 @@
                 }).then(() => {
                     request({
                         method: 'get',
-                        url: 'web/role/delete/' + role.id
+                        url: 'user-service/web/role/delete/' + role.id
                     }).then(res => {
                         if (res.code == 200) {
 
@@ -194,7 +194,7 @@
             },
             getRoleList() {
                 request({
-                    url: "web/role/query",
+                    url: "user-service/web/role/query",
                     method: 'get',
                     params: this.query
                 }).then(res => {

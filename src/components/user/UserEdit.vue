@@ -66,7 +66,7 @@
                     if (valid) {
                         request({
                             method: 'post',
-                            url: 'web/user/update',
+                            url: 'user-service/web/user/update',
                             data: this.userInfo
                         }).then(res => {
                             //成功

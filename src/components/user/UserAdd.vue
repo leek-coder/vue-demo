@@ -56,7 +56,7 @@
                      if(valid){
                          request({
                              method:'post',
-                             url:'web/user/save',
+                             url:'user-service/web/user/save',
                              data:this.addUser
                          }).then(res=>{
                              //成功

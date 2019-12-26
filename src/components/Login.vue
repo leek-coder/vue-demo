@@ -17,6 +17,7 @@
                 </el-form-item>
                 <!--按钮-->
                 <el-form-item class="btn">
+                    <el-button type="warning" @click="experience">获取体验账号</el-button>
                     <el-button type="primary" @click="login">登陆</el-button>
                     <el-button type="info" @click="reset">重置</el-button>
                 </el-form-item>
@@ -33,14 +34,14 @@
             return {
                 //这是登陆表单的数据绑定对象
                 loginForm: {
-                    userName: 'leek',
-                    password: 'leek-coder'
+                    userName: '',
+                    password: ''
                 },
                 rules: {
                     //验证用户名
                     userName: [
                         {require: true, message: "请输入用户名", trigger: "blur"},
-                        {min: 3, max: 6, message: "长度在3到10个字符", trigger: "blur"}
+                        {min: 3, max: 10, message: "长度在3到10个字符", trigger: "blur"}
                     ],
                     //验证密码规则
                     password: [
@@ -55,12 +56,19 @@
             reset() {
                 this.$refs.myForm.resetFields();
             },
+            experience(){
+                this.$alert('leek:111111', '体验账号', {
+                    confirmButtonText: '确定',
+                    callback: action => {
+                    }
+                });
+            },
             login: function () {
                 //表单登陆预验证
                 this.$refs.myForm.validate(valid => {
                     if (valid) {
                         request({
-                            url: "user/login",
+                            url: "user-service/user/login",
                             method: "post",
                             data: this.loginForm
                         }).then(res => {
@@ -70,6 +78,7 @@
                             this.$message.success("登陆成功")
                             //将token保存到本地
                             localStorage.setItem("token", res.data.token)
+                            localStorage.setItem("user",this.loginForm.userName)
                             /**
                              * 将登陆成功后的token，保存到客户端sessionStorage中
                              * 1，项目中到其他登陆之外的API接口，必须在登陆后才能访问
@@ -96,7 +105,7 @@
     }
 
     .login_box {
-        width: 450px;
+        width: 410px;
         height: 300px;
         background-color: whitesmoke;
         border-radius: 5px;

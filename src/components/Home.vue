@@ -2,20 +2,34 @@
     <el-container class="home-container">
         <!--        头部区域-->
         <el-header>
-            <div>
-                <img src="../assets/profile.jpeg"/>
-                <span>微客店后台管理系统</span>
+            <div class="left">
+                <img src="../assets/logo.png"/>
             </div>
+
+            <div  style="width:250px;display: flex;justify-content: space-between">
+
+<!--                <div style="display: flex;justify-content: space-around">-->
+<!--                    <div>-->
+<!--                        <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png">leek</el-avatar>-->
+<!--                    </div>-->
+                    <el-tag type="info">当前登陆用户:{{currentUser}}</el-tag>
+<!--                </div>-->
+
+                <el-badge :value="0" class="item">
+                    <el-button size="small">通知</el-button>
+                </el-badge>
+
             <el-dropdown :hide-on-click="true" @command="handleCommand">
   <span class="el-dropdown-link">
     操作<i class="el-icon-arrow-down el-icon--right"></i>
   </span>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item disabled class="login-user">leek</el-dropdown-item>
                     <el-dropdown-item command="changePwd">修改密码</el-dropdown-item>
                     <el-dropdown-item command="logout">退出</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
+
+            </div>
         </el-header>
         <!--        页面主题区域-->
         <el-container>
@@ -63,13 +77,14 @@
                 //左侧菜单数据
                 menusList: [],
                 isOpened: true,
-                isCollapse: false
+                isCollapse: false,
+                currentUser:""
             }
         },
         methods: {
             logout() {
                 request({
-                    url: "user/logout",
+                    url: "user-service/user/logout",
                     method: "get",
                 }).then(res => {
                     if (res.code == 200) {
@@ -95,7 +110,7 @@
             },
             getMenus() {
                 request({
-                    url: "user/menus",
+                    url: "user-service/user/menus",
                     method: "get",
                 }).then(res => {
                     if (res.code == 200) {
@@ -110,37 +125,43 @@
             //     this.isCollapse = !this.isCollapse
             // }
         }, created() {
+            const  user =  localStorage.getItem("user")
+            this.currentUser = user;
             this.getMenus();
+
         }
     }
 </script>
 
 <style scoped>
     .el-header {
-        background-color: #3a3f4c;
+        background-color: white;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-left: 5px;
+        padding-left: -5px;
         color: #47b784;
         font-size: 15px;
     }
 
-    .el-header img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-    }
-
-    .el-header div {
+    .el-header div.left {
         display: flex;
-        align-items: center;
+        justify-content: center;
+        width: 200px;
+        height: 65px;
+        background: #3a3f4c;
+        margin-left: -20px;
+        align-content: center;
+
 
     }
 
-    .el-header div span {
-        margin-left: 10px;
+    .left img {
+        margin-top: 5px;
+        width: 142px;
+        height: 54px;
     }
+
 
     .el-aside {
         background-color: #3a3f4c;
@@ -170,7 +191,9 @@
 
     .el-dropdown-link {
         cursor: pointer;
-        color: white;
+        height: 28px;
+        line-height: 28px;
+        color: cornflowerblue;
     }
 
     .el-dropdown-link:hover {
@@ -181,4 +204,9 @@
     .el-icon-arrow-down {
         font-size: 12px;
     }
+    .el-avatar{
+        width: 32px;
+        height: 32px;
+    }
+
 </style>

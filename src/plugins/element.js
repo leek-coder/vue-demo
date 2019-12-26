@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import
-{Form,FormItem,Button,Input,Container,Tree,
-    Breadcrumb,Header,Aside,Card,Main,BreadcrumbItem,
-    Menu,MenuItem,Submenu,Row,Col,Table,Dialog,Select,Option,
-    TableColumn,Tag,Tooltip,Pagination,Dropdown,DropdownMenu,DropdownItem} from "element-ui";
+{
+    Form, FormItem, Button, Input, Container, Tree, Badge, Avatar,
+    Breadcrumb, Header, Aside, Card, Main, BreadcrumbItem, Upload,
+    Menu, MenuItem, Submenu, Row, Col, Table, Dialog, Select, Option,
+    TableColumn, Tag, Tooltip, Pagination, Dropdown, DropdownMenu, DropdownItem
+} from "element-ui";
 import {Message} from "element-ui";
-import { MessageBox } from 'element-ui';
+import {MessageBox} from 'element-ui';
 
 Vue.use(Button)
 Vue.use(FormItem)
@@ -15,8 +17,9 @@ Vue.use(Breadcrumb)
 Vue.use(BreadcrumbItem)
 Vue.use(Card)
 //把弹窗组件挂载vue身上
-Vue.prototype.$message=Message
-Vue.prototype.$confirm=MessageBox.confirm
+Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$alert = MessageBox.alert
 Vue.use(Container)
 Vue.use(Header)
 Vue.use(Aside)
@@ -38,3 +41,6 @@ Vue.use(Dialog)
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Tree)
+Vue.use(Badge)
+Vue.use(Upload)
+Vue.use(Avatar)

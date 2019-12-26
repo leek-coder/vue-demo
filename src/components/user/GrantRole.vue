@@ -60,7 +60,7 @@
                 }
                 request({
                     method:'get',
-                    url:'web/user/grant',
+                    url:'user-service/web/user/grant',
                     params:{
                         rId:this.selectRoleId,
                         uId:this.roleInfo.id
