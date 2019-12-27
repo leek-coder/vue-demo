@@ -64,6 +64,7 @@
                             //成功
                             if(res.code==200){
                                 this.$message.success(res.message);
+                                this.$refs.editRole.resetFields();
                                 this.$emit('editDialogVisible');
                             }else{
                                 this.$message.error(res.message);

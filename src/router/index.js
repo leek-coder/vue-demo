@@ -9,6 +9,8 @@ import Log from "../components/log/Log";
 import Product from "../components/product/Product";
 import Role from "../components/role/Role";
 import Category from "../components/category/Category";
+import NextCategory from "../components/category/NextCategory";
+import GrandsonCategory from "../components/category/GrandsonCategory";
 Vue.use(VueRouter)
 
 const routes = [
@@ -33,6 +35,8 @@ const routes = [
             {path:"/resource",component:Auth},
             {path:"/product",component:Product},
             {path:"/category",component:Category},
+            {path:"/next/category",component:NextCategory},
+            {path:"/grandson/category",component:GrandsonCategory},
             {path:"/log",component:Log},
             {path:"/role",component:Role}
         ]

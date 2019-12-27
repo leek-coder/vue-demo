@@ -62,6 +62,7 @@
                              //成功
                             if(res.code==200){
                                 this.$message.success(res.message);
+                                this.$refs.addUser.resetFields();
                                 this.$emit('hideDialog');
                             }else{
                                 this.$message.error(res.message);

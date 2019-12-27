@@ -17,7 +17,6 @@
                 </el-form-item>
                 <!--按钮-->
                 <el-form-item class="btn">
-                    <el-button type="warning" @click="experience">获取体验账号</el-button>
                     <el-button type="primary" @click="login">登陆</el-button>
                     <el-button type="info" @click="reset">重置</el-button>
                 </el-form-item>
@@ -34,8 +33,8 @@
             return {
                 //这是登陆表单的数据绑定对象
                 loginForm: {
-                    userName: '',
-                    password: ''
+                    userName: 'leek',
+                    password: '111111'
                 },
                 rules: {
                     //验证用户名
@@ -55,13 +54,6 @@
             //点击重置按钮
             reset() {
                 this.$refs.myForm.resetFields();
-            },
-            experience(){
-                this.$alert('leek:111111', '体验账号', {
-                    confirmButtonText: '确定',
-                    callback: action => {
-                    }
-                });
             },
             login: function () {
                 //表单登陆预验证

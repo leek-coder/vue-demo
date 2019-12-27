@@ -4,26 +4,33 @@
         <el-breadcrumb>
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>商品管理</el-breadcrumb-item>
-            <el-breadcrumb-item>一级分类列表</el-breadcrumb-item>
+            <el-breadcrumb-item>三级分类列表</el-breadcrumb-item>
         </el-breadcrumb>
 
         <!--卡片视图区域-->
         <el-card>
-            <el-row :gutter="20">
-                <el-col :span="4">
-                    <el-button type="primary" size="mini" @click="addCategory">添加分类</el-button>
-                </el-col>
-            </el-row>
 
 
             <!--分类列表展示-->
             <el-table :data="categoryList" border stripe>
                 <el-table-column type="index"></el-table-column>
                 <el-table-column label="分类名称" prop="name"></el-table-column>
+                <el-table-column label="上级分类">
+                    {{$route.query.parentName}}
+                </el-table-column>
                 <el-table-column label="级别">
                     <template slot-scope="categoryList">
-                        <el-tag>一级</el-tag>
+                        <el-tag>三级</el-tag>
                     </template>
+                </el-table-column>
+                <el-table-column label="图片" width="170px">
+
+                    <!--使用作用域插槽来实现-->
+                    <template slot-scope="categoryList">
+                        <el-image style="width: 70px; height: 70px" :src="categoryList.row.imgUrl"></el-image>
+
+                    </template>
+
                 </el-table-column>
                 <el-table-column label="状态">
                     <template slot-scope="categoryList">
@@ -32,24 +39,21 @@
                     </template>
 
                 </el-table-column>
-                <el-table-column label="设置"  width="170px">
+                <el-table-column label="设置" width="170px">
 
                     <!--使用作用域插槽来实现-->
                     <template slot-scope="categoryList">
                         <el-button size="mini"
-                                   @click="nextCategory(categoryList.row)">查看下级
+                                   @click="preCategory()">返回上级
                         </el-button>
 
                     </template>
 
                 </el-table-column>
 
-                <el-table-column label="操作" width="180px">
+                <el-table-column label="操作" width="120px">
                     <!--使用作用域插槽来实现-->
                     <template slot-scope="categoryList">
-                        <el-button size="mini" type="primary" icon="el-icon-edit"
-                                   @click="editCategory(categoryList.row.id)">编辑
-                        </el-button>
                         <el-button size="mini" @click="deleteCategory(categoryList.row)" type="danger"
                                    icon="el-icon-delete">
                             删除
@@ -73,8 +77,6 @@
 
         </el-card>
 
-        <category-add :categoryList="categoryTrees" :dialogVisible="dialogVisible"
-                      @categoryDialogVisible="categoryDialogVisible"></category-add>
     </div>
 </template>
 
@@ -84,51 +86,32 @@
     import {request} from "../../network/request";
 
     export default {
-        name: "Category",
+        name: "GrandsonCategory",
         components: {
             CategoryAdd
         },
         data() {
             return {
-                dialogVisible: false,
-                categoryTrees: {},
                 categoryList: [],
-                query:{
-                    page:1,
-                    size:5
+                query: {
+                    page: 1,
+                    size: 5,
+                    level: 2,
+                    parentId: ''
                 },
-                total:0
+                total: 0
             }
         },
         methods: {
-            categoryDialogVisible() {
-                this.dialogVisible = !this.dialogVisible;
-                this.getCategoryLists();
-            },
-            //弹出添加分类对话框
-            addCategory() {
-                request({
-                    method: 'get',
-                    url: 'product-service/category/tree/1'
-                }).then(res => {
-                    if (res.code == 200) {
-                        this.dialogVisible = !this.dialogVisible;
-                        this.categoryTrees = res.data;
-                    } else {
-                        this.$message.error(res.message);
-                    }
-                }).catch(error => {
-                    this.$message.error("网络请求异常");
-                })
-            },
-            getCategoryLists(){
+            getCategoryLists() {
                 request({
                     method: 'get',
                     url: 'product-service/category/list',
                     params: {
-                        level: 0,
-                        page:this.query.page,
-                        size:this.query.size
+                        level: this.query.level,
+                        parentId:this.query.parentId,
+                        page: this.query.page,
+                        size: this.query.size
                     }
                 }).then(res => {
                     if (res.code == 200) {
@@ -140,10 +123,6 @@
                 }).catch(error => {
                     this.$message.error("网络请求异常");
                 })
-            },
-            //编辑分类
-            editCategory() {
-
             },
             //删除分类
             deleteCategory() {
@@ -157,7 +136,10 @@
                 this.query.page = page;
                 this.getCategoryLists();
             },
-            nextCategory(row){
+            preCategory(){
+                this.$router.go(-1);
+            },
+            nextCategory(row) {
                 //跑到下级页面
                 this.$router.push({
                     path:"/next/category",
@@ -170,6 +152,9 @@
         },
         created() {
             //获取分类列表
+            //// html 取参  $route.query.id
+            // script 取参  this.$route.query.id
+            this.query.parentId = this.$route.query.id;
             this.getCategoryLists();
         }
     }

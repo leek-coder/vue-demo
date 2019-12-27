@@ -9,7 +9,7 @@
             <p>当前的角色：{{this.roleInfo.roleName}}</p>
             <p>分配新角色：
 
-                    <el-select v-model="selectRoleId" placeholder="请选择响应状态" >
+                    <el-select v-model="selectRoleId" placeholder="请选择系统角色" >
                         <el-option
                                 v-for="item in this.roleList"
                                 :key="item.id"

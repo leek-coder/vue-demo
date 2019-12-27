@@ -4,25 +4,23 @@
         <el-breadcrumb>
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>商品管理</el-breadcrumb-item>
-            <el-breadcrumb-item>一级分类列表</el-breadcrumb-item>
+            <el-breadcrumb-item>二级分类列表</el-breadcrumb-item>
         </el-breadcrumb>
 
         <!--卡片视图区域-->
         <el-card>
-            <el-row :gutter="20">
-                <el-col :span="4">
-                    <el-button type="primary" size="mini" @click="addCategory">添加分类</el-button>
-                </el-col>
-            </el-row>
 
 
             <!--分类列表展示-->
             <el-table :data="categoryList" border stripe>
                 <el-table-column type="index"></el-table-column>
                 <el-table-column label="分类名称" prop="name"></el-table-column>
+                <el-table-column label="上级分类">
+                    {{$route.query.parentName}}
+                </el-table-column>
                 <el-table-column label="级别">
                     <template slot-scope="categoryList">
-                        <el-tag>一级</el-tag>
+                        <el-tag>二级</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column label="状态">
@@ -32,11 +30,15 @@
                     </template>
 
                 </el-table-column>
-                <el-table-column label="设置"  width="170px">
+                <el-table-column label="设置" width="270px">
 
                     <!--使用作用域插槽来实现-->
                     <template slot-scope="categoryList">
                         <el-button size="mini"
+                                   @click="preCategory()">返回上级
+                        </el-button>
+
+                        <el-button  disabled size="mini"
                                    @click="nextCategory(categoryList.row)">查看下级
                         </el-button>
 
@@ -73,8 +75,6 @@
 
         </el-card>
 
-        <category-add :categoryList="categoryTrees" :dialogVisible="dialogVisible"
-                      @categoryDialogVisible="categoryDialogVisible"></category-add>
     </div>
 </template>
 
@@ -84,51 +84,32 @@
     import {request} from "../../network/request";
 
     export default {
-        name: "Category",
+        name: "NextCategory",
         components: {
             CategoryAdd
         },
         data() {
             return {
-                dialogVisible: false,
-                categoryTrees: {},
                 categoryList: [],
-                query:{
-                    page:1,
-                    size:5
+                query: {
+                    page: 1,
+                    size: 5,
+                    level: 1,
+                    parentId: ''
                 },
-                total:0
+                total: 0
             }
         },
         methods: {
-            categoryDialogVisible() {
-                this.dialogVisible = !this.dialogVisible;
-                this.getCategoryLists();
-            },
-            //弹出添加分类对话框
-            addCategory() {
-                request({
-                    method: 'get',
-                    url: 'product-service/category/tree/1'
-                }).then(res => {
-                    if (res.code == 200) {
-                        this.dialogVisible = !this.dialogVisible;
-                        this.categoryTrees = res.data;
-                    } else {
-                        this.$message.error(res.message);
-                    }
-                }).catch(error => {
-                    this.$message.error("网络请求异常");
-                })
-            },
-            getCategoryLists(){
+            getCategoryLists() {
                 request({
                     method: 'get',
                     url: 'product-service/category/list',
                     params: {
-                        level: 0,
-                        page:this.query.page,
-                        size:this.query.size
+                        level: this.query.level,
+                        parentId:this.query.parentId,
+                        page: this.query.page,
+                        size: this.query.size
                     }
                 }).then(res => {
                     if (res.code == 200) {
@@ -149,6 +130,10 @@
             deleteCategory() {
 
             },
+            preCategory(){
+                this.$router.go(-1);
+            },
+
             handleSizeChange(size) {
                 this.query.size = size;
                 this.getCategoryLists();
@@ -157,10 +142,10 @@
                 this.query.page = page;
                 this.getCategoryLists();
             },
-            nextCategory(row){
+            nextCategory(row) {
                 //跑到下级页面
                 this.$router.push({
-                    path:"/next/category",
+                    path:"/grandson/category",
                     query:{
                         parentName:row.name,
                         id:row.id
@@ -170,6 +155,9 @@
         },
         created() {
             //获取分类列表
+            //// html 取参  $route.query.id
+            // script 取参  this.$route.query.id
+            this.query.parentId = this.$route.query.id;
             this.getCategoryLists();
         }
     }

@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import
 {
-    Form, FormItem, Button, Input, Container, Tree, Badge, Avatar,
-    Breadcrumb, Header, Aside, Card, Main, BreadcrumbItem, Upload,
+    Form, FormItem, Button, Input, Container, Tree, Badge, Avatar,Image,
+    Breadcrumb, Header, Aside, Card, Main, BreadcrumbItem, Upload,Cascader,
     Menu, MenuItem, Submenu, Row, Col, Table, Dialog, Select, Option,
     TableColumn, Tag, Tooltip, Pagination, Dropdown, DropdownMenu, DropdownItem
 } from "element-ui";
 import {Message} from "element-ui";
 import {MessageBox} from 'element-ui';
-
 Vue.use(Button)
 Vue.use(FormItem)
 Vue.use(Input)
@@ -44,3 +43,5 @@ Vue.use(Tree)
 Vue.use(Badge)
 Vue.use(Upload)
 Vue.use(Avatar)
+Vue.use(Cascader)
+Vue.use(Image)
