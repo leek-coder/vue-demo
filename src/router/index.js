@@ -11,6 +11,10 @@ import Role from "../components/role/Role";
 import Category from "../components/category/Category";
 import NextCategory from "../components/category/NextCategory";
 import GrandsonCategory from "../components/category/GrandsonCategory";
+import ProductAdd from "../components/product/ProductAdd";
+import Reports from "../components/reports/Reports";
+import ProductBrand from "../components/brand/ProductBrand";
+import ProductType from "../components/product/ProductType";
 Vue.use(VueRouter)
 
 const routes = [
@@ -37,6 +41,10 @@ const routes = [
             {path:"/category",component:Category},
             {path:"/next/category",component:NextCategory},
             {path:"/grandson/category",component:GrandsonCategory},
+            {path:"/product/add",component:ProductAdd},
+            {path:"/type",component:ProductType},
+            {path:"/brand",component:ProductBrand},
+            {path:"/reports",component:Reports},
             {path:"/log",component:Log},
             {path:"/role",component:Role}
         ]

@@ -6,28 +6,20 @@
                 <img src="../assets/logo.png"/>
             </div>
 
-            <div  style="width:250px;display: flex;justify-content: space-between">
+            <div style="width:140px;display: flex;justify-content: space-between">
 
-<!--                <div style="display: flex;justify-content: space-around">-->
-<!--                    <div>-->
-<!--                        <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png">leek</el-avatar>-->
-<!--                    </div>-->
-                    <el-tag type="info">当前登陆用户:{{currentUser}}</el-tag>
-<!--                </div>-->
+                <el-tag type="info">用户:{{currentUser}}</el-tag>
 
-                <el-badge :value="0" class="item">
-                    <el-button size="small">通知</el-button>
-                </el-badge>
 
-            <el-dropdown :hide-on-click="true" @command="handleCommand">
+                <el-dropdown :hide-on-click="true" @command="handleCommand">
   <span class="el-dropdown-link">
     操作<i class="el-icon-arrow-down el-icon--right"></i>
   </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="changePwd">修改密码</el-dropdown-item>
-                    <el-dropdown-item command="logout">退出</el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item command="changePwd">修改密码</el-dropdown-item>
+                        <el-dropdown-item command="logout">退出</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
 
             </div>
         </el-header>
@@ -78,7 +70,7 @@
                 menusList: [],
                 isOpened: true,
                 isCollapse: false,
-                currentUser:""
+                currentUser: ""
             }
         },
         methods: {
@@ -105,7 +97,6 @@
                 if (command === 'logout') {
                     this.logout();
                 } else {
-                    console.log("修改密码")
                 }
             },
             getMenus() {
@@ -115,17 +106,13 @@
                 }).then(res => {
                     if (res.code == 200) {
                         this.menusList = res.data;
-                        console.log(this.menusList)
                     }
                 }).catch(err => {
-                    console.log(err)
+                     this.$message.error("网络异常");
                 })
             }
-            // trigger(){
-            //     this.isCollapse = !this.isCollapse
-            // }
         }, created() {
-            const  user =  localStorage.getItem("user")
+            const user = localStorage.getItem("user")
             this.currentUser = user;
             this.getMenus();
 
@@ -204,7 +191,8 @@
     .el-icon-arrow-down {
         font-size: 12px;
     }
-    .el-avatar{
+
+    .el-avatar {
         width: 32px;
         height: 32px;
     }

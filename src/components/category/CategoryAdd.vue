@@ -168,7 +168,7 @@
                 formData.append("file", file.file);
                 request({
                     method: "post",
-                    url: "product-service/product/upload",
+                    url: "product-service/upload/pic",
                     data: formData
                 }).then(res => {
                     if (res.code == 200) {

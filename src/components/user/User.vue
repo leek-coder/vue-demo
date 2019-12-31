@@ -16,7 +16,7 @@
                     </el-input>
                 </el-col>
                 <el-col :span="4">
-                    <el-button type="primary" @click="dialogVisible=true">添加用户</el-button>
+                    <el-button size="small" @click="dialogVisible=true">添加</el-button>
                 </el-col>
             </el-row>
 
@@ -64,7 +64,7 @@
             </el-table>
 
             <!--分页插件-->
-            <el-pagination
+            <el-pagination v-show="total > 0 "
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page="query.page"
@@ -242,4 +242,7 @@
 </script>
 
 <style scoped>
+    .el-button{
+        line-height: 1.5em;
+    }
 </style>

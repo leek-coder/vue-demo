@@ -11,7 +11,7 @@
         <el-card>
             <el-row :gutter="20">
                 <el-col :span="4">
-                    <el-button type="primary" size="mini" @click="addCategory">添加分类</el-button>
+                    <el-button size="small" @click="addCategory">添加</el-button>
                 </el-col>
             </el-row>
 
@@ -60,7 +60,7 @@
             </el-table>
 
             <!--分页插件-->
-            <el-pagination
+            <el-pagination v-show="total > 0 "
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page="query.page"
