@@ -85,7 +85,9 @@
                 this.dialogVisible = !this.dialogVisible;
             },
             productTypeDialogVisible() {
+
                 this.dialogVisible = !this.dialogVisible;
+                this.getProductTypeList();
             },
             //编辑商品类型
             editProductType(id) {
@@ -105,12 +107,27 @@
             this.getProductTypeList();
             },
             //查看属性列表
-            attributeList(id) {
-
+            attributeList(row) {
+                //product/attribute
+                //跑到下级页面
+                this.$router.push({
+                    path:"/product/attribute",
+                    query:{
+                        row:row,
+                        type:"0"
+                    }
+                });
             },
             //查看参数列表
-            paramList(id) {
-
+            paramList(row) {
+                //跑到下级页面
+                this.$router.push({
+                    path:"/product/attribute",
+                    query:{
+                        row:row,
+                        type:"1"
+                    }
+                });
             },
             getProductTypeList() {
                 request({

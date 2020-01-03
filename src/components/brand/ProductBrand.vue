@@ -91,15 +91,15 @@
             },
             productBrandDialogVisible() {
                 this.dialogVisible = !this.dialogVisible;
-                this.productBrandList();
+                this.getProductBrandList();
             },
             handleSizeChange(size) {
                 this.query.size = size;
-                this.productBrandList();
+                this.getProductBrandList();
             },
             handleCurrentChange(page) {
                 this.query.page = page;
-                this.productBrandList();
+                this.getProductBrandList();
             },
             editProductBrand() {
 

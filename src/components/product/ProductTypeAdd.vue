@@ -13,7 +13,6 @@
             </el-form-item>
 
         </el-form>
-
         <span slot="footer" class="dialog-footer">
     <el-button @click="resetHideDialog">取 消</el-button>
     <el-button type="primary" @click="submitProductType">确 定</el-button>

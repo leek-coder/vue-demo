@@ -1,10 +1,6 @@
 <template>
     <div class="login_container">
         <div class="login_box">
-            <!--头像-->
-            <div class="avatar_box">
-                <img src="../assets/profile.jpeg"/>
-            </div>
             <el-form ref="myForm" class="login_form" :model="loginForm" :rules="rules">
                 <!--添加prop是为了触发resetFields方法-->
                 <el-form-item prop="userName">
@@ -33,7 +29,7 @@
             return {
                 //这是登陆表单的数据绑定对象
                 loginForm: {
-                    userName: 'leek',
+                    userName: 'admin',
                     password: '111111'
                 },
                 rules: {
@@ -92,13 +88,13 @@
 <!--scoped表示，样式只在当前组件中生效，如果去掉，就会全局生效-->
 <style scoped>
     .login_container {
-        background-image: url("../assets/bg.jpg");
         height: 100%;
+        background-color: #3a3f4c;
     }
 
     .login_box {
         width: 410px;
-        height: 300px;
+        height: 250px;
         background-color: whitesmoke;
         border-radius: 5px;
         position: absolute;
@@ -107,30 +103,13 @@
         transform: translate(-50%, -50%);
     }
 
-    .avatar_box {
-        width: 130px;
-        height: 130px;
-        border: 1px solid #eeeeee;
-        border-radius: 50%;
-        padding: 10px;
-        box-shadow: 0 0 10px;
-        position: absolute;
-        left: 50%;
-        transform: translate(-50%, -40%);
-        background-color: #eeeeee;
 
-    }
 
-    .avatar_box img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        background-color: #eeeeee;
-    }
+
 
     .btn {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-around;
     }
 
     .login_form {

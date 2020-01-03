@@ -159,7 +159,7 @@
     }
 
     .el-main {
-        background-color: whitesmoke;
+        background-color: white;
     }
 
     .home-container {

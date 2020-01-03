@@ -15,6 +15,10 @@ import ProductAdd from "../components/product/ProductAdd";
 import Reports from "../components/reports/Reports";
 import ProductBrand from "../components/brand/ProductBrand";
 import ProductType from "../components/product/ProductType";
+import ProductAttribute from "../components/product/ProductAttribute";
+//路由懒加载的方式
+const  ProductAttributeAdd =()=> import("../components/product/ProductAttributeAdd");
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -42,6 +46,8 @@ const routes = [
             {path:"/next/category",component:NextCategory},
             {path:"/grandson/category",component:GrandsonCategory},
             {path:"/product/add",component:ProductAdd},
+            {path:"/product/attribute",component:ProductAttribute},
+            {path:"/product/attribute/add",component:ProductAttributeAdd},
             {path:"/type",component:ProductType},
             {path:"/brand",component:ProductBrand},
             {path:"/reports",component:Reports},
@@ -55,7 +61,7 @@ const routes = [
 const router = new VueRouter({
     routes
 })
-//全局导航守卫，配置路由的时候，加上meta元数据
+//全局导航守卫，配置路由的时候，加上meta元数据  前置钩子
 router.beforeEach((to, from, next) => {
     //to 将要访问的路径
     //from 代表从哪里过来的

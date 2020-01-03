@@ -38,7 +38,7 @@
                                    @click="preCategory()">返回上级
                         </el-button>
 
-                        <el-button  disabled size="mini"
+                        <el-button  size="mini"
                                    @click="nextCategory(categoryList.row)">查看下级
                         </el-button>
 
